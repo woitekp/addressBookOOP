@@ -1,4 +1,4 @@
-/bin/*
+/bin/
 /obj/
 *cbp
 *depend
@@ -7,3 +7,4 @@
 *.exe
 *.txt
 ks-strukt.cpp
+Uzytkownicy.txt
