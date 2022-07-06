@@ -9,7 +9,7 @@
 
 class PlikZUzytkownikami
 {
-    std::string nazwaPlikuZUzytkownikami;
+    const std::string nazwaPlikuZUzytkownikami;// mozna od razu przypisac wartosc, ale wtedy ustawiona na sztywno. Zamiast tego skorzystamy z listy inicjalizacyjnej;
     std::fstream plikTekstowy;
 
     bool czyPlikJestPusty();
@@ -17,7 +17,7 @@ class PlikZUzytkownikami
     Uzytkownik pobierzDaneUzytkownika(std::string daneJednegoUzytkownikaOddzielonePionowymiKreskami);
 
 public:
-    PlikZUzytkownikami();
+    PlikZUzytkownikami(std::string NAZWAPLIKUZUZYTKOWNIKAMI) : nazwaPlikuZUzytkownikami(NAZWAPLIKUZUZYTKOWNIKAMI) {};
     void dopiszUzytkownikaDoPliku(Uzytkownik uzytkownik);
     std::vector<Uzytkownik> wczytajUzytkownikowZPliku();
 };
