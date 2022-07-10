@@ -17,13 +17,15 @@ class UzytkownikMenedzer
     int pobierzIdNowegoUzytkownika();
     bool czyIstniejeLogin(std::string login);
     Uzytkownik podajDaneNowegoUzytkownika();
+    void zmianaHaslaUzytkownikaWPliku( Uzytkownik uzytkownik );
     PlikZUzytkownikami plikZUzytkownikami;
 
 public:
     UzytkownikMenedzer(std::string nazwaPlikuZUzytkownikami) : plikZUzytkownikami(nazwaPlikuZUzytkownikami){};
     void rejestracjaUzytkownika();
-    //void logowanieUzytkownika();
     void logowanieUzytkownika();
+    void wylogowanieUzytkownika();
+    void zmianaHaslaUzytkownika();
     int pobierzIdZalogowanegoUzytkownika();
     void wypiszWszystkichUzytkownikow();
     void wczytajUzytkownikowZPliku();

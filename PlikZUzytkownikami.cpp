@@ -101,3 +101,8 @@ std::vector<Uzytkownik> PlikZUzytkownikami::wczytajUzytkownikowZPliku()
     plikTekstowy.close();
     return uzytkownicy;
 }
+
+std::string PlikZUzytkownikami::pobierzNazwePlikuZUzytkownikami()
+{
+    return nazwaPlikuZUzytkownikami;
+}

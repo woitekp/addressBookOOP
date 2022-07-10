@@ -15,6 +15,8 @@ public:
     };
     void rejestracjaUzytkownika();
     void logowanieUzytkownika();
+    void wylogowanieUzytkownika();
+    void zmianaHaslaUzytkownika();
     void wypiszWszystkichUzytkownikow();
 };
 
