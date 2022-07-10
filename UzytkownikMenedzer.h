@@ -22,6 +22,9 @@ class UzytkownikMenedzer
 public:
     UzytkownikMenedzer(std::string nazwaPlikuZUzytkownikami) : plikZUzytkownikami(nazwaPlikuZUzytkownikami){};
     void rejestracjaUzytkownika();
+    //void logowanieUzytkownika();
+    void logowanieUzytkownika();
+    int pobierzIdZalogowanegoUzytkownika();
     void wypiszWszystkichUzytkownikow();
     void wczytajUzytkownikowZPliku();
 };
