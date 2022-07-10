@@ -65,15 +65,16 @@ void UzytkownikMenedzer::logowanieUzytkownika ( ) {
     std::string haslo = "";
     std::cout << "Podaj login: ";
     std::cin >> login;
-    for ( int i = 0, liczbaUzytkownikow = uzytkownicy.size(); i < liczbaUzytkownikow; i++ ) {
-        std::cout << uzytkownicy[ i ].pobierzLogin() << std::endl;
-        if ( uzytkownicy[ i ].pobierzLogin() == login ) {
-            for ( int proby = 3; proby > 0; proby-- ) {
+    for ( int i = 0, liczbaUzytkownikow = uzytkownicy.size(); i < liczbaUzytkownikow; i++ )
+    {
+        if ( uzytkownicy[ i ].pobierzLogin() == login )
+        {
+            for ( int proby = 3; proby > 0; proby-- )
+            {
                 std::cout << "\nPodaj haslo (pozostalo prob: " << proby << "): ";
                 std::cin >> haslo;
                 if ( uzytkownicy[ i ].pobierzHaslo() == haslo )
                 {
-                    std::cout << uzytkownicy[ i ].pobierzHaslo() << std::endl;
                     idZalogowanegoUzytkownika = uzytkownicy[ i ].pobierzId();
                     return;
                 }
@@ -83,7 +84,7 @@ void UzytkownikMenedzer::logowanieUzytkownika ( ) {
             return;
         }
     }
-    std::cout << "\nSuch user does not exists!";
+    std::cout << "\nNie istnieje uzytownik o podanym loginie";
     Sleep(2000);
     idZalogowanegoUzytkownika = 0;
     return;
