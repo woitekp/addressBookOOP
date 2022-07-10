@@ -7,13 +7,14 @@
 
 void PlikZUzytkownikami::dopiszUzytkownikaDoPliku(Uzytkownik uzytkownik)
 {
+    std::fstream plikTekstowy;
     std::string liniaZDanymiUzytkownika = "";
     plikTekstowy.open(nazwaPlikuZUzytkownikami, std::ios::app);
     if (plikTekstowy.good() == true)
     {
         liniaZDanymiUzytkownika = zamienDaneUzytkownikaNaLinieZDanymiOddzielonaPionowymiKreskami(uzytkownik);
 
-        if (czyPlikJestPusty() == true)
+        if (czyPlikJestPusty(plikTekstowy) == true)
         {
             plikTekstowy << liniaZDanymiUzytkownika;
         }
@@ -27,7 +28,7 @@ void PlikZUzytkownikami::dopiszUzytkownikaDoPliku(Uzytkownik uzytkownik)
     plikTekstowy.close();
 }
 
-bool PlikZUzytkownikami::czyPlikJestPusty()
+bool PlikZUzytkownikami::czyPlikJestPusty(std::fstream &plikTekstowy)
 {
     plikTekstowy.seekg(0, std::ios::end);
     if (plikTekstowy.tellg() == 0)
@@ -81,6 +82,7 @@ Uzytkownik PlikZUzytkownikami::pobierzDaneUzytkownika(std::string daneJednegoUzy
 
 std::vector<Uzytkownik> PlikZUzytkownikami::wczytajUzytkownikowZPliku()
 {
+    std::fstream plikTekstowy;
     std::vector<Uzytkownik> uzytkownicy;
     Uzytkownik uzytkownik;
     std::string daneJednegoUzytkownikaOddzielonePionowymiKreskami = "";

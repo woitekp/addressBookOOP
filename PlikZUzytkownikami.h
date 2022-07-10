@@ -10,9 +10,8 @@
 class PlikZUzytkownikami
 {
     const std::string nazwaPlikuZUzytkownikami;// mozna od razu przypisac wartosc, ale wtedy ustawiona na sztywno. Zamiast tego skorzystamy z listy inicjalizacyjnej;
-    std::fstream plikTekstowy;
 
-    bool czyPlikJestPusty();
+    bool czyPlikJestPusty(std::fstream &plikTekstowy);
     std::string zamienDaneUzytkownikaNaLinieZDanymiOddzielonaPionowymiKreskami(Uzytkownik uzytkownik);
     Uzytkownik pobierzDaneUzytkownika(std::string daneJednegoUzytkownikaOddzielonePionowymiKreskami);
 
