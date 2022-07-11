@@ -107,48 +107,8 @@ void UzytkownikMenedzer::zmianaHaslaUzytkownika () {
             break;
         }
     }
-    zmianaHaslaUzytkownikaWPliku( uzytkownicy[ indeksUzytkownikaDoEdycji ]);
+    plikZUzytkownikami.zmianaHaslaUzytkownikaWPliku( uzytkownicy[ indeksUzytkownikaDoEdycji ]);
     std::cout << "\n\nZapisano zmiany";
-    Sleep(2000);
-    return;
-}
-
-void UzytkownikMenedzer::zmianaHaslaUzytkownikaWPliku( Uzytkownik uzytkownikDoEdycji ) {
-    std::string nazwaPlikuZUzytkownikami = plikZUzytkownikami.pobierzNazwePlikuZUzytkownikami();
-    std::fstream plik;
-    plik.open( nazwaPlikuZUzytkownikami , std::ios::in );
-	if( !plik.good() ) {
-        std::cout << "Nie udalo sie zmienic hasla";
-        Sleep(2000);
-        return;
-    }
-    std::fstream tempFile;
-    tempFile.open( "temp", std::ios::out | std::ios::app );
-	if( !tempFile.good() ) {
-        std::cout << "Nie udalo sie zmienic hasla";
-        Sleep(2000);
-        return;
-    }
-
-    std::string linia;
-    int idUzytkownikaDoEdycji = uzytkownikDoEdycji.pobierzId();
-    while ( getline( plik, linia ) ) {
-        std::cout << linia;
-        size_t pozycjaSeparatora = linia.find( "|" );
-        int ID = atoi( linia.substr( 0, pozycjaSeparatora ).c_str() );
-        if ( ID != idUzytkownikaDoEdycji ) {
-            tempFile << linia << std::endl;
-        }
-        else {
-            tempFile << idUzytkownikaDoEdycji << "|"
-                     << uzytkownikDoEdycji.pobierzLogin() << "|"
-                     << uzytkownikDoEdycji.pobierzHaslo() << "|\n";
-        }
-    }
-    plik.close();
-    tempFile.close();
-    std::remove( nazwaPlikuZUzytkownikami.c_str() );
-    std::rename( "temp", nazwaPlikuZUzytkownikami.c_str() );
     return;
 }
 
@@ -166,4 +126,3 @@ int UzytkownikMenedzer::pobierzIdZalogowanegoUzytkownika()
 {
     return idZalogowanegoUzytkownika;
 }
-

@@ -102,7 +102,39 @@ std::vector<Uzytkownik> PlikZUzytkownikami::wczytajUzytkownikowZPliku()
     return uzytkownicy;
 }
 
-std::string PlikZUzytkownikami::pobierzNazwePlikuZUzytkownikami()
+void PlikZUzytkownikami::zmianaHaslaUzytkownikaWPliku( Uzytkownik uzytkownikDoEdycji )
 {
-    return nazwaPlikuZUzytkownikami;
+    std::fstream plikTekstowy;
+    plikTekstowy.open( nazwaPlikuZUzytkownikami , std::ios::in );
+	if( !plikTekstowy.good() ) {
+        std::cout << "Nie udalo sie zmienic hasla";
+        return;
+    }
+    std::fstream tempFile;
+    tempFile.open( "temp", std::ios::out | std::ios::app );
+	if( !tempFile.good() ) {
+        std::cout << "Nie udalo sie zmienic hasla";
+        return;
+    }
+
+    std::string linia;
+    int idUzytkownikaDoEdycji = uzytkownikDoEdycji.pobierzId();
+    while ( getline( plikTekstowy, linia ) ) {
+        std::cout << linia;
+        size_t pozycjaSeparatora = linia.find( "|" );
+        int ID = atoi( linia.substr( 0, pozycjaSeparatora ).c_str() );
+        if ( ID != idUzytkownikaDoEdycji ) {
+            tempFile << linia << std::endl;
+        }
+        else {
+            tempFile << idUzytkownikaDoEdycji << "|"
+                     << uzytkownikDoEdycji.pobierzLogin() << "|"
+                     << uzytkownikDoEdycji.pobierzHaslo() << "|\n";
+        }
+    }
+    plikTekstowy.close();
+    tempFile.close();
+    std::remove( nazwaPlikuZUzytkownikami.c_str() );
+    std::rename( "temp", nazwaPlikuZUzytkownikami.c_str() );
+    return;
 }
