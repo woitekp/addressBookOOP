@@ -8,21 +8,34 @@
 class KsiazkaAdresowa
 {
     UzytkownikMenedzer uzytkownikMenedzer;
-    AdresatMenedzer adresatMenedzer;
+    AdresatMenedzer *adresatMenedzer;
+    const std::string NAZWA_PLIKU_Z_ADRESATAMI;
 
-public:
-    KsiazkaAdresowa(std::string nazwaPlikuZUzytkownikami, std::string nazwaPlikuZAdresatami) : uzytkownikMenedzer(nazwaPlikuZUzytkownikami), adresatMenedzer(nazwaPlikuZAdresatami)
-    {
-        uzytkownikMenedzer.wczytajUzytkownikowZPliku();
-    };
+    void menuUzytkownikow();
+    void menuZAdresatami();
+
     void rejestracjaUzytkownika();
     void logowanieUzytkownika();
     void wylogowanieUzytkownika();
     void zmianaHaslaUzytkownika();
     void wypiszWszystkichUzytkownikow();
+    bool czyUzytkownikJestZalogowany();
 
     void dodajAdresata();
     void wypiszWszystkichAdresatowUzytkownika();
+
+public:
+    KsiazkaAdresowa(std::string nazwaPlikuZUzytkownikami, std::string nazwaPlikuZAdresatami)
+        : uzytkownikMenedzer(nazwaPlikuZUzytkownikami), NAZWA_PLIKU_Z_ADRESATAMI(nazwaPlikuZAdresatami)
+    {
+        adresatMenedzer = NULL; // analogicznie do std::string someString = "";
+        menuUzytkownikow();
+    };
+    ~KsiazkaAdresowa()
+    {
+        delete adresatMenedzer;
+        adresatMenedzer = NULL;
+    }
 };
 
 #endif

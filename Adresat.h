@@ -14,6 +14,16 @@ class Adresat
     std::string adres;
 
 public:
+    Adresat (int id=0, int idWlasciciela=0, std::string imie="", std::string nazwisko="", std::string nrTelefonu="", std::string email="", std::string adres="")
+    {
+        this->id = id;
+        this->idWlasciciela = idWlasciciela;
+        this->imie = imie;
+        this->nazwisko = nazwisko;
+        this->nrTelefonu = nrTelefonu;
+        this->email = email;
+        this->adres = adres;
+    }
     void ustawId(int id);
     void ustawIdWlasciciela(int idWlasciciela);
     void ustawImie(std::string imie);

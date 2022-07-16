@@ -9,32 +9,15 @@ void PlikZUzytkownikami::dopiszUzytkownikaDoPliku(Uzytkownik uzytkownik)
 {
     std::fstream plikTekstowy;
     std::string liniaZDanymiUzytkownika = "";
-    plikTekstowy.open(nazwaPlikuZUzytkownikami, std::ios::app);
-    if (plikTekstowy.good() == true)
+    plikTekstowy.open(NAZWA_PLIKU_Z_UZYTKOWNIKAMI, std::ios::app);
+    if (plikTekstowy.good())
     {
         liniaZDanymiUzytkownika = zamienDaneUzytkownikaNaLinieZDanymiOddzielonaPionowymiKreskami(uzytkownik);
-
-        if (czyPlikJestPusty(plikTekstowy) == true)
-        {
-            plikTekstowy << liniaZDanymiUzytkownika;
-        }
-        else
-        {
-            plikTekstowy << std::endl << liniaZDanymiUzytkownika ;
-        }
+        plikTekstowy << liniaZDanymiUzytkownika << std::endl;
     }
     else
-        std::cout << "Nie udalo sie otworzyc pliku " << nazwaPlikuZUzytkownikami << " i zapisac w nim danych." << std::endl;
+        std::cout << "Nie udalo sie otworzyc pliku " << NAZWA_PLIKU_Z_UZYTKOWNIKAMI << " i zapisac w nim danych." << std::endl;
     plikTekstowy.close();
-}
-
-bool PlikZUzytkownikami::czyPlikJestPusty(std::fstream &plikTekstowy)
-{
-    plikTekstowy.seekg(0, std::ios::end);
-    if (plikTekstowy.tellg() == 0)
-        return true;
-    else
-        return false;
 }
 
 std::string PlikZUzytkownikami::zamienDaneUzytkownikaNaLinieZDanymiOddzielonaPionowymiKreskami(Uzytkownik uzytkownik)
@@ -87,9 +70,9 @@ std::vector<Uzytkownik> PlikZUzytkownikami::wczytajUzytkownikowZPliku()
     Uzytkownik uzytkownik;
     std::string daneJednegoUzytkownikaOddzielonePionowymiKreskami = "";
 
-    plikTekstowy.open(nazwaPlikuZUzytkownikami.c_str(), std::ios::in);
+    plikTekstowy.open(NAZWA_PLIKU_Z_UZYTKOWNIKAMI.c_str(), std::ios::in);
 
-    if (plikTekstowy.good() == true)
+    if (plikTekstowy.good())
     {
         while (getline(plikTekstowy, daneJednegoUzytkownikaOddzielonePionowymiKreskami))
         {
@@ -102,31 +85,35 @@ std::vector<Uzytkownik> PlikZUzytkownikami::wczytajUzytkownikowZPliku()
     return uzytkownicy;
 }
 
-void PlikZUzytkownikami::zmianaHaslaUzytkownikaWPliku( Uzytkownik uzytkownikDoEdycji )
+void PlikZUzytkownikami::zmianaHaslaUzytkownikaWPliku(Uzytkownik uzytkownikDoEdycji)
 {
     std::fstream plikTekstowy;
-    plikTekstowy.open( nazwaPlikuZUzytkownikami , std::ios::in );
-	if( !plikTekstowy.good() ) {
+    plikTekstowy.open(NAZWA_PLIKU_Z_UZYTKOWNIKAMI , std::ios::in);
+	if(!plikTekstowy.good())
+    {
         std::cout << "Nie udalo sie zmienic hasla";
         return;
     }
     std::fstream tempFile;
-    tempFile.open( "temp", std::ios::out | std::ios::app );
-	if( !tempFile.good() ) {
+    tempFile.open("temp", std::ios::out | std::ios::app);
+	if(!tempFile.good())
+	{
         std::cout << "Nie udalo sie zmienic hasla";
         return;
     }
 
     std::string linia;
     int idUzytkownikaDoEdycji = uzytkownikDoEdycji.pobierzId();
-    while ( getline( plikTekstowy, linia ) ) {
-        std::cout << linia;
+    while (getline(plikTekstowy, linia))
+    {
         size_t pozycjaSeparatora = linia.find( "|" );
-        int ID = atoi( linia.substr( 0, pozycjaSeparatora ).c_str() );
-        if ( ID != idUzytkownikaDoEdycji ) {
+        int ID = atoi(linia.substr(0, pozycjaSeparatora).c_str());
+        if (ID != idUzytkownikaDoEdycji)
+        {
             tempFile << linia << std::endl;
         }
-        else {
+        else
+        {
             tempFile << idUzytkownikaDoEdycji << "|"
                      << uzytkownikDoEdycji.pobierzLogin() << "|"
                      << uzytkownikDoEdycji.pobierzHaslo() << "|\n";
@@ -134,7 +121,6 @@ void PlikZUzytkownikami::zmianaHaslaUzytkownikaWPliku( Uzytkownik uzytkownikDoEd
     }
     plikTekstowy.close();
     tempFile.close();
-    std::remove( nazwaPlikuZUzytkownikami.c_str() );
-    std::rename( "temp", nazwaPlikuZUzytkownikami.c_str() );
-    return;
+    std::remove(NAZWA_PLIKU_Z_UZYTKOWNIKAMI.c_str());
+    std::rename("temp", NAZWA_PLIKU_Z_UZYTKOWNIKAMI.c_str());
 }

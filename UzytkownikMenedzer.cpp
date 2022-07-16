@@ -1,10 +1,5 @@
 #include "UzytkownikMenedzer.h"
 
-void UzytkownikMenedzer::wczytajUzytkownikowZPliku()
-{
-    uzytkownicy = plikZUzytkownikami.wczytajUzytkownikowZPliku();
-}
-
 void UzytkownikMenedzer::rejestracjaUzytkownika()
 {
     Uzytkownik uzytkownik = podajDaneNowegoUzytkownika();
@@ -41,7 +36,7 @@ Uzytkownik UzytkownikMenedzer::podajDaneNowegoUzytkownika()
 
 int UzytkownikMenedzer::pobierzIdNowegoUzytkownika()
 {
-    if (uzytkownicy.empty() == true)
+    if ( uzytkownicy.empty() )
         return 1;
     else
         return uzytkownicy.back().pobierzId() + 1;
@@ -60,56 +55,69 @@ bool UzytkownikMenedzer::czyIstniejeLogin(std::string login)
     return false;
 }
 
-void UzytkownikMenedzer::logowanieUzytkownika ( ) {
+void UzytkownikMenedzer::logowanieUzytkownika ( )
+{
     std::string login = "";
     std::string haslo = "";
     std::cout << "Podaj login: ";
     std::cin >> login;
-    for ( int i = 0, liczbaUzytkownikow = uzytkownicy.size(); i < liczbaUzytkownikow; i++ )
+    for (int i = 0, liczbaUzytkownikow = uzytkownicy.size(); i < liczbaUzytkownikow; i++)
     {
-        if ( uzytkownicy[ i ].pobierzLogin() == login )
+        if (uzytkownicy[ i ].pobierzLogin() == login)
         {
-            for ( int proby = 3; proby > 0; proby-- )
+            for (int proby = 3; proby > 0; proby--)
             {
                 std::cout << "\nPodaj haslo (pozostalo prob: " << proby << "): ";
                 std::cin >> haslo;
-                if ( uzytkownicy[ i ].pobierzHaslo() == haslo )
+                if (uzytkownicy[i].pobierzHaslo() == haslo)
                 {
-                    idZalogowanegoUzytkownika = uzytkownicy[ i ].pobierzId();
+                    idZalogowanegoUzytkownika = uzytkownicy[i].pobierzId();
                     return;
                 }
             }
-            Sleep(5000);
+            Sleep(5000); // block program
             idZalogowanegoUzytkownika = 0;
             return;
         }
     }
-    std::cout << "\nNie istnieje uzytownik o podanym loginie";
-    Sleep(2000);
+    std::cout << "\nNie istnieje uzytownik o podanym loginie\n";
+    system("pause");
     idZalogowanegoUzytkownika = 0;
-    return;
 }
 
-void UzytkownikMenedzer::wylogowanieUzytkownika () {
-    idZalogowanegoUzytkownika = 0;
-    return;
+bool UzytkownikMenedzer::czyUzytkownikJestZalogowany()
+{
+    return idZalogowanegoUzytkownika;
 }
 
-void UzytkownikMenedzer::zmianaHaslaUzytkownika () {
+void UzytkownikMenedzer::wylogowanieUzytkownika ()
+{
+    idZalogowanegoUzytkownika = 0;
+}
+
+void UzytkownikMenedzer::zmianaHaslaUzytkownika ()
+{
     std::string haslo = "";
     std::cout << "Podaj nowe haslo: ";
     std::cin >> haslo;
     int indeksUzytkownikaDoEdycji = -1;
-    for ( int i = 0, liczbaUzytkownikow = uzytkownicy.size(); i < liczbaUzytkownikow; i++ ) {
-        if ( uzytkownicy[ i ].pobierzId() == idZalogowanegoUzytkownika ) {
-            uzytkownicy[ i ].ustawHaslo( haslo );
+    for (int i = 0, liczbaUzytkownikow = uzytkownicy.size(); i < liczbaUzytkownikow; i++)
+    {
+        if (uzytkownicy[i].pobierzId() == idZalogowanegoUzytkownika)
+        {
+            uzytkownicy[i].ustawHaslo(haslo);
             indeksUzytkownikaDoEdycji = i;
             break;
         }
     }
-    plikZUzytkownikami.zmianaHaslaUzytkownikaWPliku( uzytkownicy[ indeksUzytkownikaDoEdycji ]);
-    std::cout << "\n\nZapisano zmiany";
-    return;
+    plikZUzytkownikami.zmianaHaslaUzytkownikaWPliku(uzytkownicy[indeksUzytkownikaDoEdycji]);
+    std::cout << "\nZapisano zmiany\n";
+    system("pause");
+}
+
+int UzytkownikMenedzer::pobierzIdZalogowanegoUzytkownika()
+{
+    return idZalogowanegoUzytkownika;
 }
 
 void UzytkownikMenedzer::wypiszWszystkichUzytkownikow()
@@ -120,9 +128,5 @@ void UzytkownikMenedzer::wypiszWszystkichUzytkownikow()
         std::cout << uzytkownicy[i].pobierzLogin() << std::endl;
         std::cout << uzytkownicy[i].pobierzHaslo() << std::endl;
     }
-}
-
-int UzytkownikMenedzer::pobierzIdZalogowanegoUzytkownika()
-{
-    return idZalogowanegoUzytkownika;
+    system("pause");
 }

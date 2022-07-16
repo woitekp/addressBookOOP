@@ -1,28 +1,23 @@
 #include "AdresatMenedzer.h"
 
-void AdresatMenedzer::wczytajAdresatowZalogowanegoUzytkownikaZPliku()
-{
-    adresaci = plikZAdresatami.wczytajAdresatowZalogowanegoUzytkownikaZPliku(idZalogowanegoUzytkownika);
-}
-
 void AdresatMenedzer::dodajAdresata()
 {
     Adresat adresat = podajDaneNowegoAdresata();
 
     adresaci.push_back(adresat);
 
-    plikZAdresatami.dopiszAdresataDoPliku(adresat);
-
-    std::cout << std::endl << "Adresat dodany pomyslnie" << std::endl << std::endl;
+    std::string wynik = (plikZAdresatami.dopiszAdresataDoPliku(adresat))
+        ? "Nowy adresat zostal dodany" : "Blad - nie udalo sie dodac nwoego adresata do pliku";
+    std::cout << wynik << std::endl;
     system("pause");
 }
 
 Adresat AdresatMenedzer::podajDaneNowegoAdresata()
 {
     Adresat adresat;
-
-    adresat.ustawId(pobierzIdNowegoAdresata());
-    adresat.ustawIdWlasciciela(idZalogowanegoUzytkownika);
+    system("cls");
+    adresat.ustawId(plikZAdresatami.pobierzIdOstatniegoAdresata()+1);
+    adresat.ustawIdWlasciciela(ID_ZALOGOWANEGO_UZYTKOWNIKA);
 
     std::string imie;
     std::cout << "Podaj imie: ";
@@ -52,14 +47,6 @@ Adresat AdresatMenedzer::podajDaneNowegoAdresata()
     return adresat;
 }
 
-int AdresatMenedzer::pobierzIdNowegoAdresata()
-{
-    if (adresaci.empty() == true)
-        return 1;
-    else
-        return adresaci.back().pobierzId() + 1;
-}
-
 void AdresatMenedzer::wypiszWszystkichAdresatowUzytkownika()
 {
     for (int i = 0, vectorSize = adresaci.size(); i < vectorSize; i++)
@@ -72,11 +59,8 @@ void AdresatMenedzer::wypiszWszystkichAdresatowUzytkownika()
         std::cout << adresaci[i].pobierzEmail() << std::endl;
         std::cout << adresaci[i].pobierzAdres() << std::endl;
     }
+    system("pause");
 }
 
-void AdresatMenedzer::ustawIdZalogowanegoUzytkownika(int noweIdZalogowanegoUzytkownika)
-{
-    idZalogowanegoUzytkownika = noweIdZalogowanegoUzytkownika;
-}
 
 
