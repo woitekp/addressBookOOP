@@ -13,6 +13,7 @@ class KsiazkaAdresowa
 
     void menuUzytkownikow();
     void menuZAdresatami();
+    void menuWyszukiwaniaAdresata();
 
     void rejestracjaUzytkownika();
     void logowanieUzytkownika();
@@ -23,6 +24,9 @@ class KsiazkaAdresowa
 
     void dodajAdresata();
     void wypiszWszystkichAdresatowUzytkownika();
+    void szukajAdresata(std::string szukanaNazwa, std::string nazwaSzukanejDanej);
+    void edytujAdresata();
+    void usunAdresata();
 
 public:
     KsiazkaAdresowa(std::string nazwaPlikuZUzytkownikami, std::string nazwaPlikuZAdresatami)

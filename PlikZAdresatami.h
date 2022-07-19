@@ -6,10 +6,10 @@
 
 #include "Adresat.h"
 #include "MetodyPomocnicze.h"
+#include "PlikTekstowy.h"
 
-class PlikZAdresatami
+class PlikZAdresatami : public PlikTekstowy
 {
-    const std::string NAZWA_PLIKU_Z_ADRESATAMI;// mozna od razu przypisac wartosc, ale wtedy ustawiona na sztywno. Zamiast tego skorzystamy z listy inicjalizacyjnej;
     int idOstatniegoAdresata;
 
     std::string zamienDaneAdresataNaLinieZDanymiOddzielonaPionowymiKreskami(Adresat adresat);
@@ -17,13 +17,15 @@ class PlikZAdresatami
     Adresat zaladujDaneAdresataZLinii ( std::string liniaZDanymi );
 
 public:
-    PlikZAdresatami(std::string nazwaPlikuZAdresatami) : NAZWA_PLIKU_Z_ADRESATAMI(nazwaPlikuZAdresatami)
+    PlikZAdresatami(std::string nazwaPlikuZAdresatami) : PlikTekstowy(nazwaPlikuZAdresatami)
     {
         idOstatniegoAdresata = 0;
     };
     bool dopiszAdresataDoPliku(Adresat adresat);
     std::vector<Adresat> wczytajAdresatowZalogowanegoUzytkownikaZPliku(int idZalogowanegoUzytkownika);
     int pobierzIdOstatniegoAdresata();
+    bool edytujAdresataWPliku(Adresat adresat);
+    bool usunAdresataZPliku(int idAdresataDoUsuniecia);
 };
 
 #endif

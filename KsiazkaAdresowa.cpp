@@ -32,23 +32,46 @@ void KsiazkaAdresowa::menuZAdresatami ()
     while (true) {
         system("cls");
         std::cout << "1. Wyswietl kontakty\n";
-        //std::cout << "2. Szukaj\n";
+        std::cout << "2. Szukaj\n";
         std::cout << "3. Dodaj kontakt\n";
-        //std::cout << "4. Edytuj kontakt\n";
-        //std::cout << "5. Usun kontakt\n";
+        std::cout << "4. Edytuj kontakt\n";
+        std::cout << "5. Usun kontakt\n";
         std::cout << "6. Zmien haslo\n";
         std::cout << "9. Wyloguj\n";
         std::cin >> wyborUzytkownika;
         switch (wyborUzytkownika)
         {
             case '1': wypiszWszystkichAdresatowUzytkownika(); break;
-            //case '2': searchContactsMenu( addressees ); break;
+            case '2': menuWyszukiwaniaAdresata(); break;
             case '3': dodajAdresata(); break;
-            //case '4': editContact( addressees ); break;
-            //case '5': lastAddresseeID = removeContact( addressees, lastAddresseeID ); break;
+            case '4': edytujAdresata(); break;
+            case '5': usunAdresata(); break;
             case '6': zmianaHaslaUzytkownika(); break;
             case '9': wylogowanieUzytkownika() ;return;
         }
+    }
+}
+
+void KsiazkaAdresowa::menuWyszukiwaniaAdresata ()
+{
+    system("cls");
+    std::cout << "1. Szukaj po imieniu\n";
+    std::cout << "2. Szukaj po nazwisku\n";
+    char wyborUzytkownika;
+    std::cin >> wyborUzytkownika;
+    std::string szukanaNazwa;
+    switch ( wyborUzytkownika ) {
+        case '1':
+            std::cout << "Podaj imie: ";
+            std::cin >> szukanaNazwa;
+            szukajAdresata( szukanaNazwa, "imie" );
+            break;
+
+        case '2':
+            std::cout << "Podaj nazwisko: ";
+            std::cin >> szukanaNazwa;
+            szukajAdresata( szukanaNazwa, "nazwisko" );
+            break;
     }
 }
 
@@ -98,3 +121,17 @@ void KsiazkaAdresowa::wypiszWszystkichAdresatowUzytkownika()
     adresatMenedzer->wypiszWszystkichAdresatowUzytkownika();
 }
 
+void KsiazkaAdresowa::szukajAdresata(std::string szukanaNazwa, std::string nazwaSzukanejDanej)
+{
+    adresatMenedzer->szukajAdresata(szukanaNazwa, nazwaSzukanejDanej);
+}
+
+void KsiazkaAdresowa::edytujAdresata()
+{
+    adresatMenedzer->edytujAdresata();
+}
+
+void KsiazkaAdresowa::usunAdresata()
+{
+    adresatMenedzer->usunAdresata();
+}
