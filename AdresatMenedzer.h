@@ -26,6 +26,9 @@ public:
     };
     void dodajAdresata();
     void wypiszWszystkichAdresatowUzytkownika();
+    void szukajAdresata(std::string szukanaNazwa, std::string nazwaSzukanejDanej);
+    void edytujAdresata();
+    void usunAdresata();
 };
 
 #endif

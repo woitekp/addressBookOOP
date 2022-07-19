@@ -9,14 +9,14 @@ void PlikZUzytkownikami::dopiszUzytkownikaDoPliku(Uzytkownik uzytkownik)
 {
     std::fstream plikTekstowy;
     std::string liniaZDanymiUzytkownika = "";
-    plikTekstowy.open(NAZWA_PLIKU_Z_UZYTKOWNIKAMI, std::ios::app);
+    plikTekstowy.open(NAZWA_PLIKU, std::ios::app);
     if (plikTekstowy.good())
     {
         liniaZDanymiUzytkownika = zamienDaneUzytkownikaNaLinieZDanymiOddzielonaPionowymiKreskami(uzytkownik);
         plikTekstowy << liniaZDanymiUzytkownika << std::endl;
     }
     else
-        std::cout << "Nie udalo sie otworzyc pliku " << NAZWA_PLIKU_Z_UZYTKOWNIKAMI << " i zapisac w nim danych." << std::endl;
+        std::cout << "Nie udalo sie otworzyc pliku " << NAZWA_PLIKU << " i zapisac w nim danych\n" << std::endl;
     plikTekstowy.close();
 }
 
@@ -70,7 +70,7 @@ std::vector<Uzytkownik> PlikZUzytkownikami::wczytajUzytkownikowZPliku()
     Uzytkownik uzytkownik;
     std::string daneJednegoUzytkownikaOddzielonePionowymiKreskami = "";
 
-    plikTekstowy.open(NAZWA_PLIKU_Z_UZYTKOWNIKAMI.c_str(), std::ios::in);
+    plikTekstowy.open(NAZWA_PLIKU.c_str(), std::ios::in);
 
     if (plikTekstowy.good())
     {
@@ -88,17 +88,17 @@ std::vector<Uzytkownik> PlikZUzytkownikami::wczytajUzytkownikowZPliku()
 void PlikZUzytkownikami::zmianaHaslaUzytkownikaWPliku(Uzytkownik uzytkownikDoEdycji)
 {
     std::fstream plikTekstowy;
-    plikTekstowy.open(NAZWA_PLIKU_Z_UZYTKOWNIKAMI , std::ios::in);
+    plikTekstowy.open(NAZWA_PLIKU , std::ios::in);
 	if(!plikTekstowy.good())
     {
-        std::cout << "Nie udalo sie zmienic hasla";
+        std::cout << "Nie udalo sie zmienic hasla\n";
         return;
     }
     std::fstream tempFile;
     tempFile.open("temp", std::ios::out | std::ios::app);
 	if(!tempFile.good())
 	{
-        std::cout << "Nie udalo sie zmienic hasla";
+        std::cout << "Nie udalo sie zmienic hasla\n";
         return;
     }
 
@@ -121,6 +121,7 @@ void PlikZUzytkownikami::zmianaHaslaUzytkownikaWPliku(Uzytkownik uzytkownikDoEdy
     }
     plikTekstowy.close();
     tempFile.close();
-    std::remove(NAZWA_PLIKU_Z_UZYTKOWNIKAMI.c_str());
-    std::rename("temp", NAZWA_PLIKU_Z_UZYTKOWNIKAMI.c_str());
+    const char* nazwaPliku = NAZWA_PLIKU.c_str();
+    std::remove(nazwaPliku);
+    std::rename("temp", nazwaPliku);
 }

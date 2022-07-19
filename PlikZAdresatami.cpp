@@ -8,7 +8,7 @@ bool PlikZAdresatami::dopiszAdresataDoPliku(Adresat adresat)
 {
     std::fstream plikTekstowy;
     std::string liniaZDanymiAdresata = "";
-    plikTekstowy.open(NAZWA_PLIKU_Z_ADRESATAMI, std::ios::app);
+    plikTekstowy.open(NAZWA_PLIKU, std::ios::app);
 
     if (plikTekstowy.good())
     {
@@ -21,7 +21,7 @@ bool PlikZAdresatami::dopiszAdresataDoPliku(Adresat adresat)
     }
     else
     {
-        std::cout << "Nie udalo sie otworzyc pliku " << NAZWA_PLIKU_Z_ADRESATAMI << " i zapisac w nim danych." << std::endl;
+        std::cout << "Nie udalo sie otworzyc pliku " << NAZWA_PLIKU << " i zapisac w nim danych\n" << std::endl;
         return false;
     }
 }
@@ -92,7 +92,7 @@ std::vector<Adresat> PlikZAdresatami::wczytajAdresatowZalogowanegoUzytkownikaZPl
     Adresat adresat;
     std::fstream plikTekstowy;
     std::string liniaZDanymiAdresata;
-    plikTekstowy.open(NAZWA_PLIKU_Z_ADRESATAMI.c_str(), std::ios::in);
+    plikTekstowy.open(NAZWA_PLIKU.c_str(), std::ios::in);
 
     if(plikTekstowy.good())
     {
@@ -141,5 +141,92 @@ Adresat PlikZAdresatami::zaladujDaneAdresataZLinii (std::string liniaZDanymi)
 int PlikZAdresatami::pobierzIdOstatniegoAdresata()
 {
     return idOstatniegoAdresata;
+}
+
+bool PlikZAdresatami::edytujAdresataWPliku(Adresat adresat)
+{
+    int idAdresataDoEdycji = adresat.pobierzId();
+    std::fstream plikTekstowy;
+    plikTekstowy.open(NAZWA_PLIKU, std::ios::in);
+	if(!plikTekstowy.good())
+    {
+        std::cout << "BLAD! Nie mozna otworzyc pliku\n";
+        system("pause");
+        return false;
+    }
+    std::fstream tempFile;
+    tempFile.open("temp", std::ios::out | std::ios::app);
+	if(!tempFile.good())
+    {
+        std::cout << "BLAD! Nie mozna otworzyc pliku\n";
+        system("pause");
+        return false;
+    }
+
+    std::string linia;
+    while (getline(plikTekstowy, linia))
+    {
+        size_t pozycjaSeparatora = linia.find("|");
+        int ID = atoi(linia.substr(0, pozycjaSeparatora).c_str());
+        if ( ID != idAdresataDoEdycji )
+        {
+            tempFile << linia << std::endl;
+        }
+        else
+        {
+            tempFile << adresat.pobierzId() << "|"
+                     << adresat.pobierzIdWlasciciela() << "|"
+                     << adresat.pobierzImie() << "|"
+                     << adresat.pobierzNazwisko() << "|"
+                     << adresat.pobierzNrTelefonu() << "|"
+                     << adresat.pobierzEmail() << "|"
+                     << adresat.pobierzAdres() << "|\n";
+        }
+    }
+    plikTekstowy.close();
+    tempFile.close();
+    const char* nazwaPlikuZAdresatami = NAZWA_PLIKU.c_str();
+    std::remove(nazwaPlikuZAdresatami);
+    std::rename("temp", nazwaPlikuZAdresatami);
+    return true;
+}
+
+bool PlikZAdresatami::usunAdresataZPliku(int idAdresataDoUsuniecia)
+{
+    std::fstream plikTekstowy;
+    plikTekstowy.open(NAZWA_PLIKU, std::ios::in );
+	if(!plikTekstowy.good())
+    {
+        std::cout << "BLAD! Nie mozna otworzyc pliku\n";
+        system("pause");
+        return false;
+    }
+    std::fstream tempFile;
+    tempFile.open("temp", std::ios::out | std::ios::app);
+	if(!tempFile.good())
+    {
+        std::cout << "BLAD! Nie mozna otworzyc pliku\n";
+        system("pause");
+        return false;
+    }
+
+    std::string linia;
+    int idOstatniegoAdresata = 0;
+    while (getline(plikTekstowy, linia))
+    {
+        size_t pozycjaSeparatora = linia.find("|");
+        int ID = atoi(linia.substr(0, pozycjaSeparatora).c_str());
+        if (ID != idAdresataDoUsuniecia)
+        {
+            tempFile << linia << std::endl;
+            idOstatniegoAdresata = ID;
+        }
+    }
+    plikTekstowy.close();
+    tempFile.close();
+    const char* nazwaPlikuZAdresatami = NAZWA_PLIKU.c_str();
+    std::remove(nazwaPlikuZAdresatami);
+    std::rename("temp", nazwaPlikuZAdresatami);
+    return true;
 }
 
