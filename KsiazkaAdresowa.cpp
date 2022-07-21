@@ -23,7 +23,6 @@ void KsiazkaAdresowa::menuUzytkownikow()
             case '3': return;
         }
     }
-    return;
 }
 
 void KsiazkaAdresowa::menuZAdresatami ()
